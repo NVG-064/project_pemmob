@@ -1,44 +1,127 @@
 import 'package:flutter/material.dart';
+import 'package:project_pemmob/screens/content_model.dart';
+import 'package:project_pemmob/screens/home_screen.dart';
 
 class Onboarding extends StatefulWidget {
-  const Onboarding({super.key});
-
   @override
-  State<Onboarding> createState() => _OnboardingState();
+  _OnboardingState createState() => _OnboardingState();
 }
 
 class _OnboardingState extends State<Onboarding> {
+  int currentIndex = 0;
+  late PageController _controller;
+
+  @override
+  void initState() {
+    _controller = PageController(initialPage: 0);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView.builder(
-          itemCount: 2,
-          itemBuilder: (_, i) {
-            return Padding(
-              padding: const EdgeInsets.all(40),
-              child: Column(
-                children: [
-                  Image.asset(
-                    'assets/images/tour_virtual.png',
-                    height: 300,
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              controller: _controller,
+              itemCount: contents.length,
+              onPageChanged: (int index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              itemBuilder: (_, i) {
+                return Padding(
+                  padding: const EdgeInsets.all(60),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        contents[i].image,
+                        height: 300,
+                      ),
+                      Text(
+                        contents[i].title,
+                        style: TextStyle(
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      Text(
+                        contents[i].description,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                        ),
+                      )
+                    ],
                   ),
-                  const Text(
-                    'Tour Virtual',
-                    style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Melihat koleksi Museum Fatahillah tanpa harus berada di lokasi fisik, dan dapat menjelajahi berbagai  fasilitas lainnya dengan cara yang realistis',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color.fromARGB(255, 128, 126, 126),
-                    ),
-                  ),
-                ],
+                );
+              },
+            ),
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                contents.length,
+                (index) => buildDot(index, context),
               ),
-            );
-          }),
+            ),
+          ),
+          Container(
+            height: 60,
+            margin: EdgeInsets.all(40),
+            width: double.infinity,
+            child: TextButton(
+              child: Text(
+                currentIndex == contents.length - 1 ? "Lewati" : "Selanjutnya",
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+              onPressed: () {
+                if (currentIndex == contents.length - 1) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => HomeScreen(),
+                    ),
+                  );
+                }
+                _controller.nextPage(
+                  duration: Duration(milliseconds: 100),
+                  curve: Curves.bounceIn,
+                );
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: const Color(0xffF05941),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Container buildDot(int index, BuildContext context) {
+    return Container(
+      height: 10,
+      width: currentIndex == index ? 25 : 10,
+      margin: EdgeInsets.only(right: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: const Color(0xffF05941),
+      ),
     );
   }
 }
