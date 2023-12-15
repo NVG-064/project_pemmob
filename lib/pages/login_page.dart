@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'daftar_page.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool _showPassword = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +73,20 @@ class LoginPage extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      suffixIcon: const Icon(Icons.remove_red_eye),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _showPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _showPassword = !_showPassword;
+                          });
+                        },
+                      ),
                     ),
+                    obscureText: !_showPassword,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -156,21 +177,26 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 48),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text.rich(
-                      TextSpan(
-                        text: 'Tidak punya akun? ',
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Daftar',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
-                            ),
+                    TextButton(
+                      onPressed: () {
+                        // Pindah ke halaman DaftarPage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DaftarPage(),
                           ),
-                        ],
+                        );
+                      },
+                      child: Text(
+                        'Tidak punya akun? Daftar',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue, // Warna teks Daftar
+                        ),
                       ),
                     ),
                   ],
