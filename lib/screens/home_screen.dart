@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_pemmob/pages/daftar_page.dart';
 import 'package:project_pemmob/pages/login_page.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -35,21 +36,26 @@ class HomeScreen extends StatelessWidget {
             child: const Text('Masuk'),
           ),
         ),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text.rich(
-              TextSpan(
-                text: 'Tidak punya akun? ',
-                children: <TextSpan>[
-                  TextSpan(
-                    text: 'Daftar',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                    ),
+            TextButton(
+              onPressed: () {
+                // Pindah ke halaman DaftarPage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DaftarPage(),
                   ),
-                ],
+                );
+              },
+              child: Text(
+                'Tidak punya akun? Daftar',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                  color: Colors.blue, // Warna teks Daftar
+                ),
               ),
             ),
           ],
