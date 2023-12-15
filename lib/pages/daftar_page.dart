@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_pemmob/auth_services.dart';
 import 'login_page.dart';
 
 class DaftarPage extends StatefulWidget {
@@ -9,6 +10,12 @@ class DaftarPage extends StatefulWidget {
 }
 
 class _DaftarPageState extends State<DaftarPage> {
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
   bool _showPassword = false;
   @override
   Widget build(BuildContext context) {
@@ -41,6 +48,7 @@ class _DaftarPageState extends State<DaftarPage> {
                 SizedBox(
                   height: 58,
                   child: TextField(
+                    controller: _fullNameController,
                     decoration: InputDecoration(
                       hintText: 'Nama Lengkap Anda ',
                       border: OutlineInputBorder(
@@ -53,6 +61,7 @@ class _DaftarPageState extends State<DaftarPage> {
                 SizedBox(
                   height: 58,
                   child: TextField(
+                    controller: _emailController,
                     decoration: InputDecoration(
                       hintText: 'Email',
                       border: OutlineInputBorder(
@@ -65,6 +74,7 @@ class _DaftarPageState extends State<DaftarPage> {
                 SizedBox(
                   height: 58,
                   child: TextField(
+                    controller: _passwordController,
                     decoration: InputDecoration(
                       hintText: 'Kata Sandi',
                       border: OutlineInputBorder(
@@ -90,6 +100,7 @@ class _DaftarPageState extends State<DaftarPage> {
                 SizedBox(
                   height: 58,
                   child: TextField(
+                    controller: _confirmPasswordController,
                     decoration: InputDecoration(
                       hintText: 'Konfirmasi Kata Sandi ',
                       border: OutlineInputBorder(
@@ -116,7 +127,22 @@ class _DaftarPageState extends State<DaftarPage> {
                   width: 400,
                   height: 58,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      String fullName = _fullNameController.text;
+                      String email = _emailController.text;
+                      String password = _passwordController.text;
+                      String confirmPassword = _confirmPasswordController.text;
+
+                      if (password == confirmPassword) {
+                        AuthServices.signUpFirebase(email, password, context);
+                      } else {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                              'Kata sandi dan Konfirmasi Kata Sandi tidak sama'),
+                        ));
+                      }
+
                       // Navigator.of(context).push(
                       //     MaterialPageRoute(builder: (context) => Home()));
                     },
