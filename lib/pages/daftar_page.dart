@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_page.dart';
 
 class DaftarPage extends StatefulWidget {
   const DaftarPage({Key? key}) : super(key: key);
@@ -126,7 +127,7 @@ class _DaftarPageState extends State<DaftarPage> {
                       ),
                     ),
                     child: const Text(
-                      'Masuk',
+                      'Daftar Akun',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -187,21 +188,26 @@ class _DaftarPageState extends State<DaftarPage> {
                   ),
                 ),
                 const SizedBox(height: 48),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text.rich(
-                      TextSpan(
-                        text: 'Sudah punya akun? ',
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'Daftar',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
-                            ),
+                    TextButton(
+                      onPressed: () {
+                        // Pindah ke halaman DaftarPage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
                           ),
-                        ],
+                        );
+                      },
+                      child: Text(
+                        'Sudah punya akun? Masuk',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue, // Warna teks Daftar
+                        ),
                       ),
                     ),
                   ],
