@@ -103,7 +103,7 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(height: 16),
                 const Row(children: <Widget>[
                   Expanded(child: Divider()),
-                  Text("Or"),
+                  Text("atau"),
                   Expanded(child: Divider()),
                 ]),
                 const SizedBox(height: 16),
