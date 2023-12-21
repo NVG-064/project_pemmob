@@ -21,7 +21,7 @@ class _ProfileState extends State<Profile> {
                   ElevatedButton(
                       onPressed: () {}, child: const Text('Sign out')),
                 ],
-              )
+              ),
             ],
           ),
         ),
