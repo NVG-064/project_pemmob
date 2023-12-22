@@ -10,8 +10,7 @@ class TicketPage extends StatefulWidget {
 }
 
 class _TicketPageState extends State<TicketPage> {
-  late DateTime selectedDate =
-      DateTime.now(); // Initialize with the current date
+  late DateTime selectedDate = DateTime.now();
   int numberOfTickets = 1;
 
   @override
@@ -118,8 +117,6 @@ class _TicketPageState extends State<TicketPage> {
   }
 
   void _handlePesanSekarang() {
-    // Handle the "Pesan Sekarang" button click
-    // For example, navigate to the payment page if both date and tickets are selected
     if (selectedDate != null && numberOfTickets > 0) {
       Navigator.push(
         context,
@@ -131,7 +128,6 @@ class _TicketPageState extends State<TicketPage> {
         ),
       );
     } else {
-      // Show a message indicating that both date and tickets need to be selected
       print('Please select both date and number of tickets.');
     }
   }

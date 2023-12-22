@@ -13,9 +13,13 @@ class PaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          // Wrap with SingleChildScrollView for scrollability
+      appBar: AppBar(
+        title: Text('Payment'),
+      ),
+      body: Center(
+        // Wrap with Center widget
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -141,16 +145,21 @@ class PaymentPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                'Choose Payment Method:',
+                style: TextStyle(fontSize: 18),
               ),
-              Divider(
-                thickness: 1.5,
-              ),
-              Column(
-                children: options.map((option) {
-                  return _buildMultipleChoice(option);
-                }).toList(),
+              SizedBox(height: 20),
+              // Add your payment method options here (e.g., credit card, PayPal, etc.)
+              ElevatedButton(
+                onPressed: () {
+                  // Implement payment processing logic
+                  _handlePayment(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFFF05941), // background color
+                  onPrimary: Colors.white, // text color
+                ),
+                child: Text('Proceed to Payment'),
               ),
             ],
           ),
@@ -208,72 +217,39 @@ class ConfirmationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Text(
-                    'Confirmation',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Thank you for your purchase!',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 20),
-                  _buildTicketInfoRow("Date", '${selectedDate.toLocal()}'),
-                  _buildTicketInfoRow("PAX", '$numberOfTickets'),
-                  // ... (you can add more ticket information here)
-                ],
-              ),
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        title: Text('Confirmation'),
       ),
-    );
-  }
-
-  Widget _buildTicketInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Center(
+        // Wrap with Center widget
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Text(
+                'Thank you for your purchase!',
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Date: ${selectedDate.toLocal()}',
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 20),
               Text(
                 label,
                 style: const TextStyle(fontSize: 18),
               ),
+              SizedBox(height: 20),
+              // You can add more information or actions for the user
               Text(
                 value,
                 style: const TextStyle(fontSize: 18),
               ),
+              SizedBox(height: 20),
+              // You can add more information or actions for the user
             ],
           ),
           const Divider(thickness: 1.5),
