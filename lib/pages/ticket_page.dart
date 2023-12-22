@@ -9,15 +9,9 @@ class TicketPage extends StatefulWidget {
 }
 
 class _TicketPageState extends State<TicketPage> {
-  late DateTime selectedDate;
+  late DateTime selectedDate =
+      DateTime.now(); // Initialize with the current date
   int numberOfTickets = 1;
-
-  @override
-  void initState() {
-    super.initState();
-    selectedDate = DateTime.now();
-    Future.delayed(Duration.zero, () => _selectDate(context));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,6 +104,7 @@ class _TicketPageState extends State<TicketPage> {
             ElevatedButton(
               onPressed: () {
                 // Add functionality for "Pesan Sekarang" button here
+                _handlePesanSekarang();
               },
               style: ElevatedButton.styleFrom(
                 primary: Color(0xFFF05941), // background color
@@ -123,17 +118,16 @@ class _TicketPageState extends State<TicketPage> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = (await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
-    ))!;
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
+  void _handlePesanSekarang() {
+    // Handle the "Pesan Sekarang" button click
+    // For example, navigate to the next screen if both date and tickets are selected
+    if (selectedDate != null && numberOfTickets > 0) {
+      // Navigate to the next screen or perform your desired action
+      print('Selected Date: $selectedDate');
+      print('Number of Tickets: $numberOfTickets');
+    } else {
+      // Show a message indicating that both date and tickets need to be selected
+      print('Please select both date and number of tickets.');
     }
   }
 }
