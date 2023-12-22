@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Tidak punya akun? Daftar',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,

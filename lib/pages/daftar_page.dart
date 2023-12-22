@@ -227,7 +227,7 @@ class _DaftarPageState extends State<DaftarPage> {
                           ),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Sudah punya akun? Masuk',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
