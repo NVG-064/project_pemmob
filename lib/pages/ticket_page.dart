@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_pemmob/pages/payment_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class TicketPage extends StatefulWidget {
@@ -103,7 +104,6 @@ class _TicketPageState extends State<TicketPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Add functionality for "Pesan Sekarang" button here
                 _handlePesanSekarang();
               },
               style: ElevatedButton.styleFrom(
@@ -120,11 +120,17 @@ class _TicketPageState extends State<TicketPage> {
 
   void _handlePesanSekarang() {
     // Handle the "Pesan Sekarang" button click
-    // For example, navigate to the next screen if both date and tickets are selected
+    // For example, navigate to the payment page if both date and tickets are selected
     if (selectedDate != null && numberOfTickets > 0) {
-      // Navigate to the next screen or perform your desired action
-      print('Selected Date: $selectedDate');
-      print('Number of Tickets: $numberOfTickets');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PaymentPage(
+            selectedDate: selectedDate,
+            numberOfTickets: numberOfTickets,
+          ),
+        ),
+      );
     } else {
       // Show a message indicating that both date and tickets need to be selected
       print('Please select both date and number of tickets.');
