@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.24.2
   firebase_auth: ^4.15.3
+  google_nav_bar: ^5.0.6
+  fluentui_system_icons: ^1.1.223
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,11 @@ flutter:
     - assets/images/kota_tua.jpg
     - assets/images/tour_virtual.png
     - assets/images/rute_tour.png
+    - assets/images/banner.jpg
+    - assets/images/museum_wayang.jpg
+    - assets/images/museum_mandiri.jpg
+    - assets/images/museum_bi.jpg
+    - assets/images/seni_rupa.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
