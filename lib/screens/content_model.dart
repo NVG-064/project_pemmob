@@ -18,6 +18,6 @@ List<OnboardingContent> contents = [
     title: 'Rute Tour',
     image: 'assets/images/rute_tour.png',
     description:
-        "Rute Tour memandu Anda dalam menemukan rute perjalanan ke destinasi wisata yang Anda tuju",
+        "Rute Tour memandu Anda dalam menemukan rute perjalanan ke Museum Fatahillah yang Anda tuju",
   ),
 ];

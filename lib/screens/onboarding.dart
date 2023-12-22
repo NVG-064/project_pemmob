@@ -58,7 +58,7 @@ class _OnboardingState extends State<Onboarding> {
                         contents[i].description,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           color: Colors.grey,
                         ),
                       )
