@@ -213,43 +213,65 @@ class ConfirmationPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start, // Set to start
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 8),
+                  Icon(Icons.check_circle, color: Colors.green, size: 50),
+                  const SizedBox(height: 16),
                   const Text(
-                    'Confirmation',
-                    style: TextStyle(fontSize: 18),
+                    'Payment Success',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'RP 5.000,00',
+                    style: TextStyle(
+                      fontSize: 48, // Adjust the font size as needed
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 40),
             Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Thank you for your purchase!',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 20),
-                  _buildTicketInfoRow("Date", '${selectedDate.toLocal()}'),
-                  _buildTicketInfoRow("PAX", '$numberOfTickets'),
-                  // ... (you can add more ticket information here)
-                ],
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Container(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(width: 8),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    _buildTicketInfoRow("Booking ID", '000102340908'),
+                    _buildTicketInfoRow("Date", '${selectedDate.toLocal()}'),
+                    _buildTicketInfoRow("PAX", '$numberOfTickets'),
+                    _buildTicketInfoRow("Total", 'Rp 5.000,00'),
+                    _buildTicketInfoRow(
+                      "Destination",
+                      'Museum Fatahillah',
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Add any action you want, such as navigating to the home screen
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xFFF05941),
+                        onPrimary: Colors.white,
+                        shape: StadiumBorder(),
+                      ),
+                      child: const Text('Beranda'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -258,7 +280,8 @@ class ConfirmationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTicketInfoRow(String label, String value) {
+  Widget _buildTicketInfoRow(String label, String value,
+      {double fontSize = 16}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -268,11 +291,13 @@ class ConfirmationPage extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(fontSize: 18),
+                style:
+                    TextStyle(fontSize: fontSize, fontWeight: FontWeight.w300),
               ),
               Text(
                 value,
-                style: const TextStyle(fontSize: 18),
+                style:
+                    TextStyle(fontSize: fontSize, fontWeight: FontWeight.w300),
               ),
             ],
           ),
