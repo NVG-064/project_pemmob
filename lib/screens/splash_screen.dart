@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
       print(
           "=====================================================================");
 
-      if (AuthServices.getAuth != null) {
+      if (AuthServices.getAuth?.currentUser != null) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (_) => HomePage(),
