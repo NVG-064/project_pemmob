@@ -1,26 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_pemmob/pages/home_page.dart';
 import 'package:project_pemmob/pages/login_page.dart';
 
 class AuthServices {
+  static FirebaseAuth? _auth;
+  static User? _user;
+
   AuthServices() {
     _auth = FirebaseAuth.instance;
   }
-  static var _auth;
 
   static Future<void> signOut(BuildContext context) async {
     print(
         "=====================================================================");
     print(
         "=====================================================================");
-    print('Before sign out: ${_auth.currentUser}');
-    _auth.signOut();
+    print('Before sign out: ${_auth?.currentUser}');
+    await _auth?.signOut();
+
+    updateCurrentUser();
 
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => LoginPage()));
 
-    print('After sign out: ${_auth.currentUser}');
+    print('After sign out: ${_auth?.currentUser}');
     print(
         "=====================================================================");
     print(
@@ -30,13 +35,13 @@ class AuthServices {
   static Future<void> signInFirebase(
       String email, String password, BuildContext context) async {
     try {
-      final credentials = await _auth.signInWithEmailAndPassword(
+      final credentials = await _auth?.signInWithEmailAndPassword(
           email: email, password: password);
 
       // Debug purpose
-      print("current user: ${_auth.currentUser}");
+      print("current user: ${_auth?.currentUser}");
 
-      final user = credentials.user;
+      final user = credentials?.user;
       if (user == null) {
         throw FirebaseAuthException(code: 'user-not-found');
       }
@@ -74,33 +79,42 @@ class AuthServices {
     }
   }
 
-  static Future<void> signUpFirebase(
-      String email, String password, BuildContext context) async {
+  static Future<void> signUpFirebase(String fullname, String email,
+      String password, BuildContext context) async {
     try {
-      final credentials = await _auth.createUserWithEmailAndPassword(
+      final credentials = await _auth?.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      _user = credentials?.user;
+      if (_user == null) {
+        throw Exception('Failed to register user');
+      }
+
+      setUserDisplayName(fullname);
+
+      // updateCurrentUser();
+      _auth?.userChanges;
 
       // Debug purpose
       print(
           "=====================================================================");
       print(
           "=====================================================================");
-      print("current user: ${_auth.currentUser}");
+      print("current user: ${_user}");
       print(
           "=====================================================================");
       print(
           "=====================================================================");
-
-      final user = credentials.user;
-      if (user == null) {
-        throw Exception('Failed to register user');
-      }
 
       // Navigate to the Home page
       if (context.mounted) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomePage()));
       }
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Welcome ${_user?.displayName} (${_user?.email})'),
+      ));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'username-already-in-use':
@@ -139,5 +153,83 @@ class AuthServices {
     _auth = auth;
   }
 
-  // static Stream<User?> get firebaseUserStream => _auth.authStateChanges();
+  static Future<void> signInWithGoogle(BuildContext context) async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      try {
+        final UserCredential? userCredential =
+            await _auth?.signInWithCredential(credential);
+
+        _user = userCredential?.user;
+
+        // Debug purpose
+        print(
+            "=====================================================================");
+        print(
+            "=====================================================================");
+        print("current user: ${_auth?.currentUser}");
+        print("_user: $_user");
+        print(
+            "=====================================================================");
+        print(
+            "=====================================================================");
+
+        if (_user == null) {
+          throw Exception('Failed to Signing In using Google');
+        }
+
+        // Navigate to the Home page
+        if (context.mounted) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        }
+      } on FirebaseAuthException catch (e) {
+        switch (e.code) {
+          case 'account-exists-with-different-credential':
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Account exists with different credential'),
+            ));
+            break;
+          case 'invalid-credential':
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Invalid credential'),
+            ));
+            break;
+          default:
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(e.code.toString()),
+            ));
+          // if (e.code == 'account-exists-with-different-credential') {
+          //   // handle the error here
+          // }
+          // else if (e.code == 'invalid-credential') {
+          //   // handle the error here
+          // }
+        }
+      }
+    }
+  }
+
+  static Future<void> setUserDisplayName(String name) async {
+    _user?.updateDisplayName(name);
+  }
+
+  static Future<void> updateCurrentUser() async {
+    _auth = FirebaseAuth.instance;
+    _user = _auth?.currentUser;
+  }
+
+  // static Stream<User?>? get firebaseUserStream => _auth?.authStateChanges();
 }

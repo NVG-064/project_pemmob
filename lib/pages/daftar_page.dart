@@ -134,7 +134,8 @@ class _DaftarPageState extends State<DaftarPage> {
                       String confirmPassword = _confirmPasswordController.text;
 
                       if (password == confirmPassword) {
-                        AuthServices.signUpFirebase(email, password, context);
+                        AuthServices.signUpFirebase(
+                            fullName, email, password, context);
                       } else {
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(

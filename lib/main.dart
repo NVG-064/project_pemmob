@@ -4,7 +4,7 @@ import 'package:project_pemmob/firebase_options.dart';
 import 'package:project_pemmob/screens/splash_screen.dart';
 
 void main() async {
-// Initalize Firebase only once
+  // Initalize Firebase only once
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

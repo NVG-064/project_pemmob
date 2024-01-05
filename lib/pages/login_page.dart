@@ -141,7 +141,9 @@ class _LoginPageState extends State<LoginPage> {
                   width: 400,
                   height: 58,
                   child: ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      AuthServices.signInWithGoogle(context);
+                    },
                     icon: SizedBox(
                       width: 40,
                       height: 40,

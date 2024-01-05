@@ -40,6 +40,7 @@ dependencies:
   fluentui_system_icons: ^1.1.223
   table_calendar: ^3.0.9
   provider: ^6.1.1
+  google_sign_in: ^6.1.6
 
 dev_dependencies:
   flutter_test:
