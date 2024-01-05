@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_pemmob/auth_services.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -19,7 +20,10 @@ class _ProfileState extends State<Profile> {
               Row(
                 children: [
                   ElevatedButton(
-                      onPressed: () {}, child: const Text('Sign out')),
+                      onPressed: () {
+                        AuthServices.signOut(context);
+                      },
+                      child: const Text('Sign out')),
                 ],
               ),
             ],

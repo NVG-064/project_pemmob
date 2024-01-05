@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_pemmob/pages/home_page.dart';
+import 'package:project_pemmob/pages/login_page.dart';
 
 class AuthServices {
   AuthServices() {
@@ -15,6 +16,10 @@ class AuthServices {
         "=====================================================================");
     print('Before sign out: ${_auth.currentUser}');
     _auth.signOut();
+
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
+
     print('After sign out: ${_auth.currentUser}');
     print(
         "=====================================================================");
