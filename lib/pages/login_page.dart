@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 48),
                 SizedBox(
                   width: 400,
                   height: 58,
@@ -156,29 +156,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: 400,
-                  height: 58,
-                  child: ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.facebook,
-                      size: 32.0,
-                      color: Colors.white,
-                    ),
-                    label: const Text(
-                      'Masuk dengan Facebook',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),

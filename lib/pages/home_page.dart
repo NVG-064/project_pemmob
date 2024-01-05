@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: const Color(0xffF05941),
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         onTap: (int index) {

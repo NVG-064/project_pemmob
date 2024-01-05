@@ -73,6 +73,7 @@ flutter:
     - assets/images/museum_mandiri.jpg
     - assets/images/museum_bi.jpg
     - assets/images/seni_rupa.jpg
+    - assets/images/profile.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
