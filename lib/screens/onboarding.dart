@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_pemmob/pages/home_page.dart';
+import 'package:project_pemmob/pages/login_page.dart';
 import 'package:project_pemmob/screens/content_model.dart';
 
 class Onboarding extends StatefulWidget {
@@ -91,7 +92,7 @@ class _OnboardingState extends State<Onboarding> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => HomePage(),
+                      builder: (_) => LoginPage(),
                     ),
                   );
                 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_pemmob/auth_services.dart';
 import 'daftar_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,6 +10,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _showPassword = false;
 
   @override
@@ -49,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 58,
                   child: TextField(
+                    controller: _emailController,
                     decoration: InputDecoration(
                       hintText: 'Enter your email address',
                       border: OutlineInputBorder(
@@ -68,6 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 58,
                   child: TextField(
+                    controller: _passwordController,
                     decoration: InputDecoration(
                       hintText: 'Enter your password',
                       border: OutlineInputBorder(
@@ -108,6 +113,10 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       // Navigator.of(context).push(
                       //     MaterialPageRoute(builder: (context) => Home()));
+                      String email = _emailController.text;
+                      String password = _passwordController.text;
+
+                      AuthServices.signInFirebase(email, password, context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xffF05941),

@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:project_pemmob/auth_services.dart';
+import 'package:project_pemmob/pages/home_page.dart';
 import 'package:project_pemmob/screens/onboarding.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,12 +19,33 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_) => Onboarding(),
-        ),
-      );
+    AuthServices.setAuth = FirebaseAuth.instance;
+
+    Future.delayed(const Duration(seconds: 3), () async {
+      // Debug purposes
+      print(
+          "=====================================================================");
+      print(
+          "=====================================================================");
+      print("current user: ${AuthServices.getAuth?.currentUser}");
+      print(
+          "=====================================================================");
+      print(
+          "=====================================================================");
+
+      if (AuthServices.getAuth != null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => HomePage(),
+          ),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => Onboarding(),
+          ),
+        );
+      }
     });
   }
 
