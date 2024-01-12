@@ -46,6 +46,11 @@ class AuthServices {
         throw FirebaseAuthException(code: 'user-not-found');
       }
 
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Selamat datang kembali ${AuthServices.getAuth!.currentUser?.email}'),
+      ));
+
       // Navigate to the Home page
       if (context.mounted) {
         Navigator.pushReplacement(
@@ -55,22 +60,22 @@ class AuthServices {
       switch (e.code) {
         case 'invalid-email':
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Please enter a valid email'),
+            content: Text('Email tidak valid'),
           ));
           break;
         case 'user-disabled':
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Account has been disabled'),
+            content: Text('Akun telah dinonaktifkan'),
           ));
           break;
         case 'user-not-found':
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Email doesn\'t exist'),
+            content: Text('Email tidak ditemukan'),
           ));
           break;
         case 'wrong-password':
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Incorrect email or password'),
+            content: Text('Email atau password salah'),
           ));
           break;
         default:
@@ -87,54 +92,60 @@ class AuthServices {
 
       _user = credentials?.user;
       if (_user == null) {
-        throw Exception('Failed to register user');
+        throw Exception('failed-to-sign-up');
       }
+
+      print(
+          "=====================================================================");
+      print(
+          "=====================================================================");
+      print('Before setUserDisplayName: ${_auth?.currentUser}');
 
       setUserDisplayName(fullname);
 
-      // updateCurrentUser();
-      _auth?.userChanges;
+      updateCurrentUser();
+      // _auth?.authStateChanges();
 
-      // Debug purpose
+      print('After setUserDisplayName: ${_auth?.currentUser}');
       print(
           "=====================================================================");
       print(
           "=====================================================================");
-      print("current user: ${_user}");
-      print(
-          "=====================================================================");
-      print(
-          "=====================================================================");
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Berhasil daftar'),
+      ));
 
       // Navigate to the Home page
       if (context.mounted) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomePage()));
       }
-
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Welcome ${_user?.displayName} (${_user?.email})'),
-      ));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
-        case 'username-already-in-use':
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Username is already taken'),
-          ));
-          break;
         case 'email-already-in-use':
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Email address is already taken'),
+            content: Text('Email telah digunakan'),
           ));
           break;
         case 'invalid-email':
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Please enter a valid email'),
+            content: Text('Email tidak valid'),
           ));
           break;
         case 'weak-password':
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Password is too weak'),
+            content: Text('Password terlalu lemah'),
+          ));
+          break;
+        case 'failed-to-sign-up':
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Gagal daftar'),
+          ));
+          break;
+        case 'operation-not-allowed':
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Layanan Auth belum diaktifkan'),
           ));
           break;
         default:
@@ -187,8 +198,13 @@ class AuthServices {
             "=====================================================================");
 
         if (_user == null) {
-          throw Exception('Failed to Signing In using Google');
+          throw Exception('sign-in-google-failed');
         }
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              'Selamat datang kembali ${AuthServices.getAuth!.currentUser?.email}'),
+        ));
 
         // Navigate to the Home page
         if (context.mounted) {
@@ -205,6 +221,11 @@ class AuthServices {
           case 'invalid-credential':
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Invalid credential'),
+            ));
+            break;
+          case 'sign-in-google-failed':
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Failed to sign in with Google'),
             ));
             break;
           default:
