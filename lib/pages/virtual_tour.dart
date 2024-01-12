@@ -36,6 +36,7 @@ class _VirtualTourState extends State<VirtualTour> {
           // Exit full screen
           SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
+          // Set 'true' mean allows you to navigate pop
           return true;
         });
   }
