@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project_pemmob/auth_services.dart';
+import 'package:project_pemmob/pages/gallery_admin.dart';
 import 'package:project_pemmob/pages/home_page.dart';
 import 'package:project_pemmob/screens/onboarding.dart';
 
@@ -36,13 +37,13 @@ class _SplashScreenState extends State<SplashScreen>
       if (AuthServices.getAuth?.currentUser != null) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => HomePage(),
+            builder: (_) => GalleryAdmin(),
           ),
         );
       } else {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => Onboarding(),
+            builder: (_) => GalleryAdmin(),
           ),
         );
       }
