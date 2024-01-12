@@ -1,5 +1,6 @@
 // home_page.dart
 import 'package:flutter/material.dart';
+import 'package:project_pemmob/pages/gallery.dart';
 import 'package:project_pemmob/pages/home.dart';
 import 'package:project_pemmob/pages/profile.dart';
 import 'ticket_page.dart'; // Import TicketPage
@@ -18,11 +19,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const Home(),
     const TicketPage(),
-    // ignore: avoid_unnecessary_containers
-    Container(
-      child: const Column(children: [Text('Gallery Page')]),
-    ),
-    // ignore: avoid_unnecessary_containers
+    const GalleryPage(),
     const Profile(),
   ];
 

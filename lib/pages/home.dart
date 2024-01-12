@@ -72,15 +72,16 @@ class _HomeState extends State<Home> {
                         hintText: 'Search',
                         prefixIcon: const Icon(Icons.search),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
+                        contentPadding: EdgeInsets.symmetric(vertical: 16),
                       ),
                     ),
                   ),
                   IconButton(
                     icon: const Icon(Icons.notifications),
                     onPressed: () {},
-                    iconSize: 30.0,
+                    iconSize: 28.0,
                   ),
                 ],
               ),
