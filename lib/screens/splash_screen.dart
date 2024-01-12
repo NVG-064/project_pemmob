@@ -36,6 +36,11 @@ class _SplashScreenState extends State<SplashScreen>
           "=====================================================================");
 
       if (AuthServices.getAuth?.currentUser != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              'Kamu masuk sebagai ${AuthServices.getAuth!.currentUser?.email}'),
+        ));
+
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (_) => NavAdmin(),
