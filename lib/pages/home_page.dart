@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
 
   // List of pages to be displayed
   final List<Widget> _pages = [
-    const Home(),
+    Home(),
     const TicketPage(),
     const GalleryPage(),
     const Profile(),
