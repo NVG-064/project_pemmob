@@ -30,6 +30,13 @@ class _VirtualTourState extends State<VirtualTour> {
 
   @override
   Widget build(BuildContext context) {
-    return WebViewWidget(controller: controller);
+    return WillPopScope(
+        child: WebViewWidget(controller: controller),
+        onWillPop: () async {
+          // Exit full screen
+          SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+          return true;
+        });
   }
 }
