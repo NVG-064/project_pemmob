@@ -35,12 +35,20 @@ class _SplashScreenState extends State<SplashScreen>
       print(
           "=====================================================================");
 
-      if (AuthServices.getAuth?.currentUser != null) {
+      if (AuthServices.getAuth?.currentUser != null &&
+          AuthServices.getAuth?.currentUser?.email != 'admin123@admin.mail') {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
               'Kamu masuk sebagai ${AuthServices.getAuth!.currentUser?.email}'),
         ));
 
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => HomePage(),
+          ),
+        );
+      } else if (AuthServices.getAuth?.currentUser?.email ==
+          'admin123@admin.mail') {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (_) => NavAdmin(),
@@ -49,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen>
       } else {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => NavAdmin(),
+            builder: (_) => Onboarding(),
           ),
         );
       }

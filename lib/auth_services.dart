@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:project_pemmob/admin/nav_admin.dart';
 import 'package:project_pemmob/pages/home_page.dart';
 import 'package:project_pemmob/pages/login_page.dart';
+import 'package:project_pemmob/screens/home_screen.dart';
 
 class AuthServices {
   static FirebaseAuth? _auth;
-  static User? _user;
+  // static User? _user;
 
   AuthServices() {
     _auth = FirebaseAuth.instance;
@@ -53,8 +55,19 @@ class AuthServices {
 
       // Navigate to the Home page
       if (context.mounted) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+        if (AuthServices.getAuth!.currentUser?.email == 'admin123@admin.mail') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (_) => NavAdmin(),
+            ),
+          );
+        } else {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (_) => HomePage(),
+            ),
+          );
+        }
       }
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -90,8 +103,8 @@ class AuthServices {
       final credentials = await _auth?.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      _user = credentials?.user;
-      if (_user == null) {
+      final user = credentials?.user;
+      if (user == null) {
         throw Exception('failed-to-sign-up');
       }
 
@@ -183,7 +196,7 @@ class AuthServices {
         final UserCredential? userCredential =
             await _auth?.signInWithCredential(credential);
 
-        _user = userCredential?.user;
+        final user = userCredential?.user;
 
         // Debug purpose
         print(
@@ -191,13 +204,13 @@ class AuthServices {
         print(
             "=====================================================================");
         print("current user: ${_auth?.currentUser}");
-        print("_user: $_user");
+        print("_user: $user");
         print(
             "=====================================================================");
         print(
             "=====================================================================");
 
-        if (_user == null) {
+        if (user == null) {
           throw Exception('sign-in-google-failed');
         }
 
@@ -244,12 +257,11 @@ class AuthServices {
   }
 
   static Future<void> setUserDisplayName(String name) async {
-    _user?.updateDisplayName(name);
+    AuthServices.getAuth!.currentUser?.updateDisplayName(name);
   }
 
   static Future<void> updateCurrentUser() async {
     _auth = FirebaseAuth.instance;
-    _user = _auth?.currentUser;
   }
 
   // static Stream<User?>? get firebaseUserStream => _auth?.authStateChanges();
