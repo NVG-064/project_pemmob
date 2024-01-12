@@ -140,10 +140,10 @@ class PopularSpotCard extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(0),
                 child: Image.asset(
                   image,
-                  height: 100,
+                  height: 120,
                   fit: BoxFit.cover,
                 ),
               ),
