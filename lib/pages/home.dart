@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_pemmob/pages/virtual_tour.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -219,6 +220,8 @@ class PopularSpotCard extends StatelessWidget {
   }
 }
 
+/// Spot Detail Page
+
 class SpotDetailPage extends StatelessWidget {
   final String title;
   final String imageAsset;
@@ -343,6 +346,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
+      actions: [
+        Container(
+          margin: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.8),
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(8.0)),
+          child: IconButton(
+            icon: const Icon(
+              Icons.view_in_ar,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const VirtualTour(),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
