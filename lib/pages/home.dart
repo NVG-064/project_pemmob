@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:project_pemmob/firestore_services.dart';
 import 'package:project_pemmob/pages/virtual_tour.dart';
 
 class Home extends StatefulWidget {
@@ -79,33 +81,43 @@ class _HomeState extends State<Home> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: popularSpots.length,
-                itemBuilder: (context, index) {
-                  return PopularSpotCard(
-                    image: popularSpots[index]['image'],
-                    title: popularSpots[index]['title'],
-                    distance: popularSpots[index]['distance'],
-                    description: popularSpots[index]['description'],
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SpotDetailPage(
-                            title: popularSpots[index]['title'],
-                            imageAsset: popularSpots[index]['image'],
-                            distance: popularSpots[index]['distance'] ??
-                                'Distance not available',
-                            details_desc: popularSpots[index]['details_desc'] ??
-                                'Details not available',
-                          ),
-                        ),
-                      );
-                    },
-                  );
+              child: StreamBuilder<QuerySnapshot>(
+                stream:
+                    FirebaseFirestore.instance.collection("spot").snapshots(),
+                builder: (context, snapshot) {
+                  return !snapshot.hasData
+                      ? Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                          itemCount: snapshot.data?.docs.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot data = snapshot.data!.docs[index];
+                            return PopularSpotCard(
+                              image: popularSpots[index]['image'],
+                              title: data['title'],
+                              distance: popularSpots[index]['distance'],
+                              description: data['desc'],
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SpotDetailPage(
+                                      title: data['title'],
+                                      imageAsset: popularSpots[index]['image'],
+                                      distance: popularSpots[index]
+                                              ['distance'] ??
+                                          'Distance not available',
+                                      details_desc: data['about'] ??
+                                          'Details not available',
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        );
                 },
               ),
-            ),
+            )
           ],
         ),
       ),
