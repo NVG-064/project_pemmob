@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:project_pemmob/firestore_services.dart';
 import 'package:project_pemmob/pages/virtual_tour.dart';
@@ -108,6 +109,7 @@ class _HomeState extends State<Home> {
                                           'Distance not available',
                                       details_desc: data['about'] ??
                                           'Details not available',
+                                      uri: data['uri'],
                                     ),
                                   ),
                                 );
@@ -125,7 +127,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-class PopularSpotCard extends StatelessWidget {
+class PopularSpotCard extends StatefulWidget {
   final String image;
   final String title;
   final String? distance;
@@ -142,11 +144,21 @@ class PopularSpotCard extends StatelessWidget {
   });
 
   @override
+  State<PopularSpotCard> createState() => _PopularSpotCardState();
+}
+
+class _PopularSpotCardState extends State<PopularSpotCard> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: GestureDetector(
-        onTap: onTap,
+        onTap: widget.onTap,
         child: Row(
           children: [
             Expanded(
@@ -154,7 +166,7 @@ class PopularSpotCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(0),
                 child: Image.asset(
-                  image,
+                  widget.image,
                   height: 120,
                   fit: BoxFit.cover,
                 ),
@@ -168,7 +180,7 @@ class PopularSpotCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      widget.title,
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.bold),
                     ),
@@ -182,7 +194,7 @@ class PopularSpotCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          distance ?? 'Distance not available',
+                          widget.distance ?? 'Distance not available',
                           style: const TextStyle(
                             fontSize: 12,
                             color: Colors.blue,
@@ -193,7 +205,7 @@ class PopularSpotCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      description,
+                      widget.description,
                       style: const TextStyle(fontSize: 11, color: Colors.grey),
                     ),
                   ],
@@ -214,98 +226,109 @@ class SpotDetailPage extends StatelessWidget {
   final String imageAsset;
   final String distance;
   final String details_desc;
+  final String uri;
 
-  const SpotDetailPage({
-    Key? key,
-    required this.title,
-    required this.imageAsset,
-    required this.distance,
-    required this.details_desc,
-  }) : super(key: key);
+  const SpotDetailPage(
+      {Key? key,
+      required this.title,
+      required this.imageAsset,
+      required this.distance,
+      required this.details_desc,
+      required this.uri})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Image.asset(
-            imageAsset,
-            height: 300,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-            child: CustomAppBar(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 300),
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(height: 5),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.location_on,
-                      size: 20,
-                      color: Colors.blue,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Image.asset(
+              imageAsset,
+              height: 300,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+              child: CustomAppBar(uri: uri),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 300),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                    const SizedBox(width: 4),
-                    Text(
-                      distance,
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.location_on,
+                        size: 20,
+                        color: Colors.blue,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        distance,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  Container(
+                    child: Text(
+                      details_desc,
+                      textAlign: TextAlign.justify,
                       style: const TextStyle(
                         fontSize: 14,
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w500,
+                        color: Color.fromARGB(255, 105, 105, 105),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 12),
-                Container(
-                  child: Text(
-                    details_desc,
-                    textAlign: TextAlign.justify,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Color.fromARGB(255, 105, 105, 105),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Lokasi',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Lokasi',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key});
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  final String uri;
+
+  const CustomAppBar({Key? key, required this.uri}) : super(key: key);
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
 
   @override
   Size get preferredSize => const Size.fromHeight(56);
+}
 
+class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -346,12 +369,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const VirtualTour(),
-                ),
-              );
+              if (widget.uri.isNotEmpty) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => VirtualTour(uri: widget.uri),
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Tidak ada virtual tour untuk museum ini"),
+                ));
+              }
             },
           ),
         ),
