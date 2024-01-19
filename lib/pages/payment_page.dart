@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:project_pemmob/pages/home_page.dart';
 
 class PaymentPage extends StatelessWidget {
   final DateTime selectedDate;
@@ -33,7 +35,7 @@ class PaymentPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${selectedDate.toLocal()}',
+                          'Confirmation Page',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -53,8 +55,11 @@ class PaymentPage extends StatelessWidget {
                     children: [
                       const SizedBox(height: 16),
                       _buildTicketInfoRow("Booking ID", '000102340908'),
-                      _buildTicketInfoRow("Date", '${selectedDate.toLocal()}'),
-                      _buildTicketInfoRow("PAX", '$numberOfTickets'),
+                      _buildTicketInfoRow(
+                          "Date",
+                          DateFormat('yyyy-MM-dd hh:mm:ss')
+                              .format(selectedDate)),
+                      _buildTicketInfoRow("QTY", '$numberOfTickets'),
                       _buildTicketInfoRow("Total", 'Rp 5.000,00'),
                       _buildTicketInfoRow(
                         "Destination",
@@ -65,21 +70,22 @@ class PaymentPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'Pilih Metode Pembayaran',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              _buildPaymentMethod("Dompet Digital", ["DANA", "OVO", "Gopay"]),
-              const SizedBox(height: 20),
-              _buildPaymentMethod(
-                "Transfer Bank",
-                ["BCA", "Mandiri", "BRI"],
-              ),
-              SizedBox(height: 16),
+              // Separator
+              // const SizedBox(height: 20),
+              // Padding(
+              //   padding: const EdgeInsets.all(16.0),
+              //   child: Text(
+              //     'Pilih Metode Pembayaran',
+              //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              //   ),
+              // ),
+              // _buildPaymentMethod("Dompet Digital", ["DANA", "OVO", "Gopay"]),
+              // const SizedBox(height: 20),
+              // _buildPaymentMethod(
+              //   "Transfer Bank",
+              //   ["BCA", "Mandiri", "BRI"],
+              // ),
+              // SizedBox(height: 16),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
@@ -93,7 +99,7 @@ class PaymentPage extends StatelessWidget {
                       primary: Color(0xFFF05941),
                       onPrimary: Colors.white,
                     ),
-                    child: const Text('Bayar'),
+                    child: const Text('Konfirmasi'),
                   ),
                 ),
               ),
@@ -222,7 +228,7 @@ class ConfirmationPage extends StatelessWidget {
                   Icon(Icons.check_circle, color: Colors.green, size: 50),
                   const SizedBox(height: 16),
                   const Text(
-                    'Payment Success',
+                    'Success',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
@@ -251,7 +257,8 @@ class ConfirmationPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     _buildTicketInfoRow("Booking ID", '000102340908'),
-                    _buildTicketInfoRow("Date", '${selectedDate.toLocal()}'),
+                    _buildTicketInfoRow("Date",
+                        DateFormat('yyyy-MM-dd hh:mm:ss').format(selectedDate)),
                     _buildTicketInfoRow("PAX", '$numberOfTickets'),
                     _buildTicketInfoRow("Total", 'Rp 5.000,00'),
                     _buildTicketInfoRow(
@@ -262,6 +269,11 @@ class ConfirmationPage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Add any action you want, such as navigating to the home screen
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (_) => HomePage(),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xFFF05941),
