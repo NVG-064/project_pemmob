@@ -1,7 +1,8 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:project_pemmob/firestore_services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:project_pemmob/pages/virtual_tour.dart';
 
 class Home extends StatefulWidget {
@@ -12,6 +13,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String calculateDistance(lat2, long2) {
+    var p = 0.017453292519943295;
+    var a = 0.5 -
+        cos((lat2 - -6.136331546647542) * p) / 2 +
+        cos(-6.136331546647542 * p) *
+            cos(lat2 * p) *
+            (1 - cos((long2 - 106.8130446415108) * p)) /
+            2;
+    return (12742 * asin(sqrt(a))).toStringAsFixed(2);
+  }
+
+//it will return distance in KM
+
   final List<Map<String, dynamic>> popularSpots = [
     {
       'image': 'assets/images/banner.jpg',
@@ -95,7 +109,8 @@ class _HomeState extends State<Home> {
                             return PopularSpotCard(
                               image: popularSpots[index]['image'],
                               title: data['title'],
-                              distance: popularSpots[index]['distance'],
+                              distance:
+                                  '${calculateDistance(double.tryParse(data['lat']), double.tryParse(data['long']))} KM dari Museum Fatahillah',
                               description: data['desc'],
                               onTap: () {
                                 Navigator.push(
@@ -110,6 +125,8 @@ class _HomeState extends State<Home> {
                                       details_desc: data['about'] ??
                                           'Details not available',
                                       uri: data['uri'],
+                                      lat: data['lat'],
+                                      long: data['long'],
                                     ),
                                   ),
                                 );
@@ -227,6 +244,12 @@ class SpotDetailPage extends StatelessWidget {
   final String distance;
   final String details_desc;
   final String uri;
+  final String lat;
+  final String long;
+  final InfoWindow _infoWindow = const InfoWindow(
+    title: "",
+    snippet: "",
+  );
 
   const SpotDetailPage(
       {Key? key,
@@ -234,7 +257,9 @@ class SpotDetailPage extends StatelessWidget {
       required this.imageAsset,
       required this.distance,
       required this.details_desc,
-      required this.uri})
+      required this.uri,
+      required this.lat,
+      required this.long})
       : super(key: key);
 
   @override
@@ -304,6 +329,26 @@ class SpotDetailPage extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  SizedBox(
+                    height: 300,
+                    child: GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(double.parse(lat), double.parse(long)),
+                        zoom: 14.0,
+                      ),
+                      mapType: MapType.normal,
+                      markers: <Marker>{
+                        Marker(
+                            markerId: MarkerId("${_infoWindow.title}"),
+                            position:
+                                LatLng(double.parse(lat), double.parse(long)),
+                            icon: BitmapDescriptor.defaultMarker,
+                            infoWindow: _infoWindow)
+                      },
+                      onTap: (_) {},
                     ),
                   ),
                 ],

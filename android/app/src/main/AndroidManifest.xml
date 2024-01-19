@@ -3,6 +3,9 @@
         android:label="project_pemmob"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC0aOpE5aM82cxGBt_C4BwRQSlRMVYLERA" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
