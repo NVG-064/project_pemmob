@@ -1,6 +1,7 @@
 // home_page.dart
 import 'package:flutter/material.dart';
 import 'package:project_pemmob/admin/gallery_admin.dart';
+import 'package:project_pemmob/admin/pembayaran_admin.dart';
 
 class NavAdmin extends StatefulWidget {
   const NavAdmin({Key? key}) : super(key: key);
@@ -15,7 +16,10 @@ class _NavAdminState extends State<NavAdmin> {
   // List of pages to be displayed
   final List<Widget> _pages = [
     const Text('Ini halaman Home'),
-    const Text('Ini halaman Tiket'),
+    PaymentAdmin(
+      selectedDate: DateTime.now(),
+      numberOfTickets: 2,
+    ),
     const GalleryAdmin(),
     const Text('Ini halaman Profile'),
   ];
