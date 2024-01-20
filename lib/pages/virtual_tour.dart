@@ -3,15 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class VirtualTour extends StatefulWidget {
-  const VirtualTour({super.key});
+  final String? uri;
+
+  const VirtualTour({Key? key, required this.uri}) : super(key: key);
 
   @override
   State<VirtualTour> createState() => _VirtualTourState();
 }
 
 class _VirtualTourState extends State<VirtualTour> {
-  final uri =
-      "https://indonesiavirtualtour.com/storage/destination/museum-sejarah-jakarta/src/index.htm";
   late final WebViewController controller;
 
   @override
@@ -23,7 +23,7 @@ class _VirtualTourState extends State<VirtualTour> {
 
     controller = WebViewController()
       ..loadRequest(
-        Uri.parse(uri),
+        Uri.parse(widget.uri!),
       )
       ..setJavaScriptMode(JavaScriptMode.unrestricted);
   }

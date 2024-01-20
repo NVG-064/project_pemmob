@@ -10,7 +10,7 @@ class TicketPage extends StatefulWidget {
 }
 
 class _TicketPageState extends State<TicketPage> {
-  late DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime.now();
   int numberOfTickets = 1;
 
   @override
@@ -40,6 +40,7 @@ class _TicketPageState extends State<TicketPage> {
               firstDay: DateTime.now(),
               lastDay: DateTime(2101),
               calendarFormat: CalendarFormat.month,
+              selectedDayPredicate: (day) => isSameDay(day, selectedDate),
               onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
                 setState(() {
                   selectedDate = selectedDay;
@@ -48,7 +49,7 @@ class _TicketPageState extends State<TicketPage> {
             ),
             SizedBox(height: 20),
             Text(
-              'PAX :',
+              'QTY:',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 10),
