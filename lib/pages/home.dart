@@ -119,9 +119,8 @@ class _HomeState extends State<Home> {
                                     builder: (context) => SpotDetailPage(
                                       title: data['title'],
                                       imageAsset: popularSpots[index]['image'],
-                                      distance: popularSpots[index]
-                                              ['distance'] ??
-                                          'Distance not available',
+                                      distance:
+                                          '${calculateDistance(double.tryParse(data['lat']), double.tryParse(data['long']))} KM dari Museum Fatahillah',
                                       details_desc: data['about'] ??
                                           'Details not available',
                                       uri: data['uri'],
